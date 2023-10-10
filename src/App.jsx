@@ -110,14 +110,9 @@ function App() {
         onClick={handleRequest}
         className="p-2 px-4 rounded-2xl bg-red-500 text-white mr-4"
       >
-        peticion
+        Traer Datos
       </button>
-      <button
-        onClick={handleClickFixture}
-        className="p-2 px-4 rounded-2xl bg-blue-500 text-white"
-      >
-        Fixture
-      </button>
+     
       <select onChange={onChangeCountry} value={country}>
         <option value=""> -- Seleccione un país --</option>
         <option value="Peru">Peru</option>
@@ -143,6 +138,12 @@ function App() {
           </option>
         ))}
       </select>
+      <button
+        onClick={handleClickFixture}
+        className="p-2 px-4 rounded-2xl bg-blue-500 text-white"
+      >
+        Fixture
+      </button>
       <h1 className="my-4 flex gap-4 justify-center">
         {" "}
         <span>
