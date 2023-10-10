@@ -5,11 +5,11 @@ import Fixture from "./Fixture";
 import DistributionPoisson from "./Components/DistributionPoisson";
 const ls = localStorage;
 function App() {
-  const [country, setCountry] = useState("");//se guarda el pais seleccionado en el select de paises
-  const [leagueCurrent, setleagueCurrent] = useState([]);//se guarda datos de  liga seleccionada en el select ID;Nombrede liga ; temporada, y pais
+  const [country, setCountry] = useState(""); //se guarda el pais seleccionado en el select de paises
+  const [leagueCurrent, setleagueCurrent] = useState([]); //se guarda datos de  liga seleccionada en el select ID;Nombrede liga ; temporada, y pais
   const [leaguesByCountry, setLeaguesByCountry] = useState([]); // guarda la lista de las ligas x ciudad  , es lo que se ve en el select de ligas
-  const [fixture, setFixture] = useState([])//guarda el fixture dela liga seleccionada 
-  
+  const [fixture, setFixture] = useState([]); //guarda el fixture dela liga seleccionada
+
   const onChangeCountry = (e) => {
     setCountry(e.target.value);
     const leaguesByCountry = addLeaguesSelect(e.target.value);
@@ -18,14 +18,14 @@ function App() {
 
   //aca seleciono la liga y guardo en el estado leagueCurrent los datos de esa liga ID;Nombrede liga ; temporada, y pais
   const onChangeLeagueSelect = (e) => {
-    console.log(e.target.value)
-    const idLeague = e.target.value
-    const leagueCurrent = leaguesCurrent.find((league) => Number(league.id) === Number(idLeague))
+    console.log(e.target.value);
+    const idLeague = e.target.value;
+    const leagueCurrent = leaguesCurrent.find(
+      (league) => Number(league.id) === Number(idLeague)
+    );
 
     setleagueCurrent(leagueCurrent);
-    ls.setItem('leagueCurrent',JSON.stringify(leagueCurrent))
-
-
+    ls.setItem("leagueCurrent", JSON.stringify(leagueCurrent));
   };
 
   //-----------------------------------
@@ -69,10 +69,10 @@ function App() {
     const url = `https://v3.football.api-sports.io/fixtures?league=${leagueCurrent.id}&season=2023`;
     axios
       .get(url, headers)
-      .then(({ data }) =>    {
-        ls.setItem("fixture", JSON.stringify(data.response) )
-        setFixture(data.response)
-      } )
+      .then(({ data }) => {
+        ls.setItem("fixture", JSON.stringify(data.response));
+        setFixture(data.response);
+      })
       .catch((err) => console.log(err));
   };
 
@@ -80,27 +80,29 @@ function App() {
 
   const leagues = JSON.parse(ls.getItem("leagues"));
   const leaguesCurrent = [];
-  leagues.forEach((league) => {
-    if (league.seasons[0].coverage.standings) {
-      leaguesCurrent.push({
-        country: league.country.name,
-        league: league.league.name,
-        id: league.league.id,
-        season: league.seasons[0].year,
-      });
+  if (leagues) {
+    leagues.forEach((league) => {
+      if (league.seasons[0].coverage.standings) {
+        leaguesCurrent.push({
+          country: league.country.name,
+          league: league.league.name,
+          id: league.league.id,
+          season: league.seasons[0].year,
+        });
+      }
+    });
+  }
+
+  //-------------------------sto me trae data de la liga a pronosticar-------------------------------------
+  useEffect(() => {
+    const fixture = JSON.parse(ls.getItem("fixture"));
+
+    if (fixture) {
+      const leagueCurrent = JSON.parse(ls.getItem("leagueCurrent"));
+      setleagueCurrent(leagueCurrent);
+      setFixture(fixture);
     }
-  });
-//-------------------------sto me trae data de la liga a pronosticar-------------------------------------
-useEffect(() => {
-  const fixture = JSON.parse(ls.getItem("fixture"));
-  const leagueCurrent = JSON.parse(ls.getItem('leagueCurrent'))
-  setleagueCurrent(leagueCurrent)
-  setFixture(fixture)
-}, [])
-
-
-
-
+  }, []);
 
   return (
     <>
@@ -141,9 +143,24 @@ useEffect(() => {
           </option>
         ))}
       </select>
-      <h1 className="my-4 flex gap-4 justify-center"> <span> PAIS <span className="text-xl text-red-500 font-semibold">{leagueCurrent.country}</span></span>  <span>LIGA <span className="text-xl text-red-500 font-semibold">{leagueCurrent.league}</span></span></h1>
-     <DistributionPoisson fixture={fixture}  />
-      <Fixture fixture={fixture}/>
+      <h1 className="my-4 flex gap-4 justify-center">
+        {" "}
+        <span>
+          {" "}
+          PAIS{" "}
+          <span className="text-xl text-red-500 font-semibold">
+            {leagueCurrent.country}
+          </span>
+        </span>{" "}
+        <span>
+          LIGA{" "}
+          <span className="text-xl text-red-500 font-semibold">
+            {leagueCurrent.league}
+          </span>
+        </span>
+      </h1>
+      <DistributionPoisson fixture={fixture} />
+      {/* <Fixture fixture={fixture} /> */}
     </>
   );
 }
