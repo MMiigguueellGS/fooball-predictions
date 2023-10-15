@@ -8,6 +8,7 @@ const FixtureList = ({ game }) => {
       <span>{game.teams.home.name}</span>
       <span>{game.goals.home} - {game.goals.away}</span>
       <span>{game.teams.away.name}</span>
+    
     </li>
   );
 };

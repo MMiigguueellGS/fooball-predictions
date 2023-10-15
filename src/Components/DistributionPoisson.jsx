@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import MatchResultStatus from "./MatchResultStatus";
 import ProbabilisticScoreList from "./ProbabilisticScoreList";
 import TeamGGoalsStats from "./TeamGGoalsStats";
+import { Link } from "react-router-dom";
 const ls = localStorage;
 const DistributionPoisson = ({ fixture }) => {
   const [averageGoalsAtHome, setAverageGoalAtsHome] = useState({}); //promedios de goles del equipo local selecionado en el select 1
@@ -201,6 +202,7 @@ const DistributionPoisson = ({ fixture }) => {
  
   return (
     <div className="mb-6 grid gap-6">
+      <Link to="/">Regresar</Link>
       <form action="">
         <label htmlFor="">LOCAL </label>
         <select onChange={handleSelectHomeTeam}>

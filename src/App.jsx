@@ -3,6 +3,8 @@ import "./App.css";
 import { useEffect, useState } from "react";
 import Fixture from "./Fixture";
 import DistributionPoisson from "./Components/DistributionPoisson";
+import PredictionsAPI from "./predicciones/PredictionsAPI";
+import { Link, Route, Routes } from "react-router-dom";
 const ls = localStorage;
 function App() {
   const [country, setCountry] = useState(""); //se guarda el pais seleccionado en el select de paises
@@ -27,9 +29,7 @@ function App() {
     setleagueCurrent(leagueCurrent);
     ls.setItem("leagueCurrent", JSON.stringify(leagueCurrent));
   };
-
   //-----------------------------------
-
   function addLeaguesSelect(country) {
     const leaguesByCountry = [];
     leaguesCurrent.forEach((league) => {
@@ -42,9 +42,7 @@ function App() {
     });
     return leaguesByCountry;
   }
-
   //---------------------------------------
-
   const handleRequest = () => {
     const headers = {
       headers: {
@@ -75,7 +73,6 @@ function App() {
       })
       .catch((err) => console.log(err));
   };
-
   //------------------- esto me trae todas de las ligas y temporadas actuales guardatas en el LOCAL STORAGE--------------------------------
 
   const leagues = JSON.parse(ls.getItem("leagues"));
@@ -92,7 +89,6 @@ function App() {
       }
     });
   }
-
   //-------------------------sto me trae data de la liga a pronosticar-------------------------------------
   useEffect(() => {
     const fixture = JSON.parse(ls.getItem("fixture"));
@@ -106,62 +102,31 @@ function App() {
 
   return (
     <>
-      <button
-        onClick={handleRequest}
-        className="p-2 px-4 rounded-2xl bg-red-500 text-white mr-4"
-      >
-        Traer Datos
-      </button>
-     
-      <select onChange={onChangeCountry} value={country}>
-        <option value=""> -- Seleccione un país --</option>
-        <option value="Peru">Peru</option>
-        <option value="Spain">España</option>
-        <option value="England">Inglaterra</option>
-        <option value="Italy">Italia</option>
-        <option value="Germany">Alemania</option>
-        <option value="France">Francia</option>
-        <option value="Brazil">Brasil</option>
-        <option value="Argentina">Argentina</option>
-        <option value="Mexico">México</option>
-        <option value="Japan">Japón</option>
-        <option value="Netherlands">Países Bajos</option>
-        {/* Puedes agregar más países según tus necesidades */}
-      </select>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Fixture
+              fixture={fixture}
+              onChangeCountry={onChangeCountry}
+              onChangeLeagueSelect={onChangeLeagueSelect}
+              handleRequest={handleRequest}
+              handleClickFixture={handleClickFixture}
+              leaguesByCountry={leaguesByCountry}
+              country={country}
+              leagueCurrent={leagueCurrent}
+            />
+          }
+        />
+        <Route
+          path="/predicciones"
+          element={<DistributionPoisson fixture={fixture} />}
+        />
+      </Routes>
 
-      <select onChange={onChangeLeagueSelect}>
-        <option value=""> -- Seleccione una liga --</option>
-
-        {leaguesByCountry.map((league) => (
-          <option key={league.id} value={league.id}>
-            {league.league}
-          </option>
-        ))}
-      </select>
-      <button
-        onClick={handleClickFixture}
-        className="p-2 px-4 rounded-2xl bg-blue-500 text-white"
-      >
-        Fixture
-      </button>
-      <h1 className="my-4 flex gap-4 justify-center">
-        {" "}
-        <span>
-          {" "}
-          PAIS{" "}
-          <span className="text-xl text-red-500 font-semibold">
-            {leagueCurrent.country}
-          </span>
-        </span>{" "}
-        <span>
-          LIGA{" "}
-          <span className="text-xl text-red-500 font-semibold">
-            {leagueCurrent.league}
-          </span>
-        </span>
-      </h1>
-      <DistributionPoisson fixture={fixture} />
-      {/* <Fixture fixture={fixture} /> */}
+      {/* */}
+      {/*  */}
+      {/* <PredictionsAPI fixture={fixture} /> */}
     </>
   );
 }
