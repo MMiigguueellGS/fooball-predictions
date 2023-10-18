@@ -10,18 +10,18 @@ const DistributionPoisson = ({ fixture }) => {
   const [teamHome, setTeamHome] = useState("");
   const [teamAway, setTeamAway] = useState("");
 
-  //cantidad de equipos por liga para agregar al select
+  //cantidad de equipos por liga para agregar al select ( ESCOGE LOS EQUIPOS DE LA LIGA )
   const teamsByLeague = fixture.reduce((uniqueTeams, matche) => {
     const homeTeam = { id: matche.teams.home.id, name: matche.teams.home.name };
     const awayTeam = { id: matche.teams.away.id, name: matche.teams.away.name };
-    // Verifica si el equipo de local ya existe en la lista
+    // Verifica si el equipo de local ya existe en la lista y agregarlo en la lista de equipos
     const existingHomeTeam = uniqueTeams.find(
       (team) => team.id === homeTeam.id
     );
     if (!existingHomeTeam) {
       uniqueTeams.push(homeTeam);
     }
-    // Verifica si el equipo visitante ya existe en la lista
+    // Verifica si el equipo visitante ya existe en la lista y agregarlo en la lista de equipos
     const existingAwayTeam = uniqueTeams.find(
       (team) => team.id === awayTeam.id
     );
@@ -31,8 +31,7 @@ const DistributionPoisson = ({ fixture }) => {
     return uniqueTeams;
   }, []);
   //-----------------------------------------------------
-
-  //numero de partidos de liga hasta el momento
+    //numero de partidos de liga hasta el momento
   const totalGamesPlayed = fixture.reduce((sum, matche) => {
     if (matche.fixture.status.long === "Match Finished") {
       sum++;
@@ -48,7 +47,7 @@ const DistributionPoisson = ({ fixture }) => {
   let totalAwayGoals = 0;
   fixture.forEach((matche) => (totalAwayGoals += matche.goals.away));
 
-  //calculas el promerio del goles del local con el total de partidos del local
+  //calculas el promedio del goles del local con el total de partidos del local
   const handleSelectHomeTeam = (e) => {
     const idHome = e.target.value;
     //encuentro el nombre del equipo local
@@ -89,7 +88,7 @@ const DistributionPoisson = ({ fixture }) => {
     setAverageGoalAtsHome(averagesGoalsHome);
   };
 
-  //calculas el promerio del goles del visitante con el total de partidos del visitante
+  //calculas el promedio del goles del visitante con el total de partidos del visitante
   const handleSelectAwayTeam = (e) => {
     const idAway = e.target.value;
 

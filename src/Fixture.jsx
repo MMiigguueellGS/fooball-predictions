@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import FixtureList from "./FixtureList";
 import { Link } from "react-router-dom";
 
@@ -12,6 +12,49 @@ const Fixture = ({
   country,
   leagueCurrent,
 }) => {
+
+  const [teamName, setTeamName] = useState("")
+  const [homeOrAway, setHomeOrAway] = useState("")
+  const [teamByHomeOrAway,setTeamByHomeOrAway] = useState([])
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
+  const handleChangeTeamName = (e) => {
+    setTeamName(e.target.value);
+    const xxx  =fixture.filter((match)=>{
+      if(homeOrAway === "home"){
+       return match.teams.home.name.toLowerCase().includes((e.target.value).toLowerCase())  
+     
+      }
+      if(homeOrAway === "away"){
+        return match.teams.away.name.toLowerCase().includes((e.target.value).toLowerCase())  
+      
+       }
+     })
+    setTeamByHomeOrAway(xxx)
+  };
+
+  const handleChangeHomeOrAway = (e) => {
+    setHomeOrAway(e.target.value)
+    const xxx  =fixture.filter((match)=>{
+      if(e.target.value === "home"){
+       return match.teams.home.name.toLowerCase().includes((teamName).toLowerCase())  
+     
+      }
+      if(e.target.value === "away"){
+        return match.teams.away.name.toLowerCase().includes((teamName).toLowerCase())  
+      
+       }
+     })
+    setTeamByHomeOrAway(xxx)
+
+   };
+
+  console.log(homeOrAway)
+  
+ 
+  
   return (
     <div>
       <button
@@ -70,6 +113,32 @@ const Fixture = ({
         <Link to="/predicciones">Ir a predicciones</Link>
       </section>
 
+      <form
+        onSubmit={handleSubmit}
+        className="grid gap-8 sm:flex sm:justify-between max-w-[1200px] mx-auto"
+      >
+        <div className="ligthTheme p-4 rounded-md flex items-center gap-2 darkTheme sm:w-[360px]">
+          <i className="bx bx-search-alt-2 text-dark-gray text-lg"></i>
+          <input
+            id="teamName"
+            className="outline-none flex-1 bg-white/0"
+            placeholder="buscar por equipo..."
+            type="text"
+            autoComplete="off"
+            onChange={handleChangeTeamName}
+            value={teamName}
+          />
+        </div>
+
+        <select
+          onChange={handleChangeHomeOrAway}
+          className="outline-none font-nunito-sans ligthTheme  rounded-md max-w-[140px] darkTheme"
+        >
+          <option value="">Local/Visitante</option>
+          <option value="home">Local</option>
+          <option value="away">Visitante</option>
+         </select>
+      </form>
       <ul className="">
         <li className="grid grid-cols-4 gap-4">
           <h3>Fecha</h3>
@@ -77,7 +146,7 @@ const Fixture = ({
           <h3>Marcador</h3>
           <h3>Away</h3>
         </li>
-        {fixture.map((game) => (
+        {teamByHomeOrAway.map((game) => (
           <FixtureList key={game.fixture.id} game={game} />
         ))}
       </ul>
