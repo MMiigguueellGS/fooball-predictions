@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FixtureList from "./FixtureList";
 import { Link } from "react-router-dom";
-
+const ls = localStorage;
 const Fixture = ({
   fixture,
   onChangeCountry,
@@ -12,49 +12,74 @@ const Fixture = ({
   country,
   leagueCurrent,
 }) => {
-
-  const [teamName, setTeamName] = useState("")
-  const [homeOrAway, setHomeOrAway] = useState("")
-  const [teamByHomeOrAway,setTeamByHomeOrAway] = useState([])
+  const [teamName, setTeamName] = useState("");
+  const [homeOrAway, setHomeOrAway] = useState("");
+  const [teamByHomeOrAway, setTeamByHomeOrAway] = useState([]);
   const handleSubmit = (e) => {
     e.preventDefault();
   };
 
   const handleChangeTeamName = (e) => {
     setTeamName(e.target.value);
-    const xxx  =fixture.filter((match)=>{
-      if(homeOrAway === "home"){
-       return match.teams.home.name.toLowerCase().includes((e.target.value).toLowerCase())  
-     
+  
+    const isHomeOrAwaySelected = homeOrAway !== "";
+    const searchValue = e.target.value.toLowerCase();
+  
+    const filteredMatches = fixture.filter((match) => {
+      const homeName = match.teams.home.name.toLowerCase();
+      const awayName = match.teams.away.name.toLowerCase();
+  
+      if (isHomeOrAwaySelected) {
+        return (
+          (homeOrAway === "home" && homeName.includes(searchValue)) ||
+          (homeOrAway === "away" && awayName.includes(searchValue))
+        );
+      } else {
+        return homeName.includes(searchValue) || awayName.includes(searchValue);
       }
-      if(homeOrAway === "away"){
-        return match.teams.away.name.toLowerCase().includes((e.target.value).toLowerCase())  
-      
-       }
-     })
-    setTeamByHomeOrAway(xxx)
+    });
+  
+    setTeamByHomeOrAway(filteredMatches);
+  };
+  
+  const handleChangeHomeOrAway = (e) => {
+    setHomeOrAway(e.target.value);
+
+    if (e.target.value !== "") {
+      const TeamHomeOrAway = fixture.filter((match) => {
+        if (e.target.value === "home") {
+          return match.teams.home.name
+            .toLowerCase()
+            .includes(teamName.toLowerCase());
+        }
+        if (e.target.value === "away") {
+          return match.teams.away.name
+            .toLowerCase()
+            .includes(teamName.toLowerCase());
+        }
+      });
+      setTeamByHomeOrAway(TeamHomeOrAway);
+    } else {
+      // Filtra los partidos en los que el equipo que buscas esté tanto de local como de visitante
+      const TeamHomeAndAway = fixture.filter((match) => {
+        return (
+          match.teams.home.name.toLowerCase().includes(teamName.toLowerCase()) ||
+          match.teams.away.name.toLowerCase().includes(teamName.toLowerCase())
+        );
+      });
+      setTeamByHomeOrAway(TeamHomeAndAway);
+    }
   };
 
-  const handleChangeHomeOrAway = (e) => {
-    setHomeOrAway(e.target.value)
-    const xxx  =fixture.filter((match)=>{
-      if(e.target.value === "home"){
-       return match.teams.home.name.toLowerCase().includes((teamName).toLowerCase())  
-     
-      }
-      if(e.target.value === "away"){
-        return match.teams.away.name.toLowerCase().includes((teamName).toLowerCase())  
-      
-       }
-     })
-    setTeamByHomeOrAway(xxx)
+  console.log(homeOrAway);
+  useEffect(() => {
+    const fixture = JSON.parse(ls.getItem("fixture"));
 
-   };
+    if (fixture) {
+      setTeamByHomeOrAway(fixture);
+    }
+  }, [fixture]);
 
-  console.log(homeOrAway)
-  
- 
-  
   return (
     <div>
       <button
@@ -137,7 +162,7 @@ const Fixture = ({
           <option value="">Local/Visitante</option>
           <option value="home">Local</option>
           <option value="away">Visitante</option>
-         </select>
+        </select>
       </form>
       <ul className="">
         <li className="grid grid-cols-4 gap-4">
