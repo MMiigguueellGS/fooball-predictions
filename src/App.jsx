@@ -55,7 +55,10 @@ function App() {
     const url = "https://v3.football.api-sports.io/leagues?current=true";
     axios
       .get(url, headers)
-      .then(({ data }) => ls.setItem("leagues", JSON.stringify(data.response)))
+      .then(({ data }) => {
+        ls.setItem("leagues", JSON.stringify(data.response))
+        setCountries(data.response)
+      })
       .catch((err) => console.log(err));
   };
   //----------------------------------------------
