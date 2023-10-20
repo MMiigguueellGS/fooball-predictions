@@ -12,6 +12,8 @@ function App() {
   const [leaguesByCountry, setLeaguesByCountry] = useState([]); // guarda la lista de las ligas x ciudad  , es lo que se ve en el select de ligas
   const [fixture, setFixture] = useState([]); //guarda el fixture dela liga seleccionada
 
+  const [countries, setCountries] = useState([]) 
+
   const onChangeCountry = (e) => {
     setCountry(e.target.value);
     const leaguesByCountry = addLeaguesSelect(e.target.value);
@@ -92,11 +94,15 @@ function App() {
   //-------------------------sto me trae data de la liga a pronosticar-------------------------------------
   useEffect(() => {
     const fixture = JSON.parse(ls.getItem("fixture"));
-
+    const countries = JSON.parse(ls.getItem("leagues"))
+    if(countries){
+      setCountries(countries)
+    }
     if (fixture) {
       const leagueCurrent = JSON.parse(ls.getItem("leagueCurrent"));
       setleagueCurrent(leagueCurrent);
       setFixture(fixture);
+      
     }
   }, []);
 
@@ -115,6 +121,7 @@ function App() {
               leaguesByCountry={leaguesByCountry}
               country={country}
               leagueCurrent={leagueCurrent}
+              countries={countries}
             />
           }
         />

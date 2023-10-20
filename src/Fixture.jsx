@@ -11,24 +11,29 @@ const Fixture = ({
   leaguesByCountry,
   country,
   leagueCurrent,
+  countries,
 }) => {
   const [teamName, setTeamName] = useState("");
   const [homeOrAway, setHomeOrAway] = useState("");
   const [teamByHomeOrAway, setTeamByHomeOrAway] = useState([]);
+
+  const countriesList = countries.map((country) => country.country.name);
+  const uniqueCouuntries = [...new Set(countriesList)];
+  console.log(uniqueCouuntries);
   const handleSubmit = (e) => {
     e.preventDefault();
   };
 
   const handleChangeTeamName = (e) => {
     setTeamName(e.target.value);
-  
+
     const isHomeOrAwaySelected = homeOrAway !== "";
     const searchValue = e.target.value.toLowerCase();
-  
+
     const filteredMatches = fixture.filter((match) => {
       const homeName = match.teams.home.name.toLowerCase();
       const awayName = match.teams.away.name.toLowerCase();
-  
+
       if (isHomeOrAwaySelected) {
         return (
           (homeOrAway === "home" && homeName.includes(searchValue)) ||
@@ -38,10 +43,10 @@ const Fixture = ({
         return homeName.includes(searchValue) || awayName.includes(searchValue);
       }
     });
-  
+
     setTeamByHomeOrAway(filteredMatches);
   };
-  
+
   const handleChangeHomeOrAway = (e) => {
     setHomeOrAway(e.target.value);
 
@@ -63,7 +68,9 @@ const Fixture = ({
       // Filtra los partidos en los que el equipo que buscas esté tanto de local como de visitante
       const TeamHomeAndAway = fixture.filter((match) => {
         return (
-          match.teams.home.name.toLowerCase().includes(teamName.toLowerCase()) ||
+          match.teams.home.name
+            .toLowerCase()
+            .includes(teamName.toLowerCase()) ||
           match.teams.away.name.toLowerCase().includes(teamName.toLowerCase())
         );
       });
@@ -71,7 +78,6 @@ const Fixture = ({
     }
   };
 
-  console.log(homeOrAway);
   useEffect(() => {
     const fixture = JSON.parse(ls.getItem("fixture"));
 
@@ -89,19 +95,14 @@ const Fixture = ({
         Traer Datos
       </button>
 
-      <select onChange={onChangeCountry} value={country}>
+      <select onChange={onChangeCountry} >
         <option value=""> -- Seleccione un país --</option>
-        <option value="Peru">Peru</option>
-        <option value="Spain">España</option>
-        <option value="England">Inglaterra</option>
-        <option value="Italy">Italia</option>
-        <option value="Germany">Alemania</option>
-        <option value="France">Francia</option>
-        <option value="Brazil">Brasil</option>
-        <option value="Argentina">Argentina</option>
-        <option value="Mexico">México</option>
-        <option value="Japan">Japón</option>
-        <option value="Netherlands">Países Bajos</option>
+        {uniqueCouuntries.map((country) => ( 
+          <option key={country} value={country}>
+            {country}
+          </option>
+        ))}
+
         {/* Puedes agregar más países según tus necesidades */}
       </select>
 
