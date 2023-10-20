@@ -95,9 +95,9 @@ const Fixture = ({
         Traer Datos
       </button>
 
-      <select onChange={onChangeCountry} >
+      <select onChange={onChangeCountry}>
         <option value=""> -- Seleccione un país --</option>
-        {uniqueCouuntries.map((country) => ( 
+        {uniqueCouuntries.map((country) => (
           <option key={country} value={country}>
             {country}
           </option>
@@ -165,17 +165,20 @@ const Fixture = ({
           <option value="away">Visitante</option>
         </select>
       </form>
-      <ul className="">
-        <li className="grid grid-cols-4 gap-4">
-          <h3>Fecha</h3>
-          <h3>Home</h3>
-          <h3>Marcador</h3>
-          <h3>Away</h3>
-        </li>
-        {teamByHomeOrAway.map((game) => (
-          <FixtureList key={game.fixture.id} game={game} />
-        ))}
-      </ul>
+      <section className="grid gap-5 ">
+        <ul className="grid  items-center grid-cols-4 gap-4 text-white h-10 bg-gradient-to-r from-cyan-500 to-red-500">
+          <li className="text-xl font-semibold">Fecha</li>
+          <li className="text-xl font-semibold">Local</li>
+          <li className="text-xl font-semibold">Marcador</li>
+          <li className="text-xl font-semibold">Visitante</li>
+        </ul>
+
+        <section className="grid gap-4 ">
+          {teamByHomeOrAway.map((game) => (
+            <FixtureList key={game.fixture.id} game={game} />
+          ))}
+        </section>
+      </section>
     </div>
   );
 };
