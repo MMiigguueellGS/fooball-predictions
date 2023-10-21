@@ -7,17 +7,19 @@ const TeamGGoalsStats = ({ teamName, expectedTeamGoals, isHome,poissonProbabilit
  
   const expectedGoal = [0, 1, 2, 3, 4, 5, 6, 7];
   return (
-    <article className="flex gap-6">
+    <article className="flex gap-6 items-center justify-around">
       <h2 className="text-center tex">
         {isHome === true ? "Local" : "Visita"}
       </h2>
       <span>{teamName}</span>
-      {expectedGoal.map((goal) => (
-        <ul key={goal}>
-          <li>{goal}</li>
-          <li>{(poissonProbability(goal, expectedTeamGoals)*100).toFixed(2)}</li>
-        </ul>
+     <section className="flex gap-6 ">
+     {expectedGoal.map((goal) => (
+        <article className=" grid gap-4 " key={goal}>
+          <span>{goal}</span>
+          <span>{(poissonProbability(goal, expectedTeamGoals)*100).toFixed(2)}</span>
+        </article>
       ))}
+     </section>
     </article>
   );
 };

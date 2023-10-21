@@ -19,7 +19,7 @@ const Fixture = ({
 
   const countriesList = countries.map((country) => country.country.name);
   const uniqueCouuntries = [...new Set(countriesList)];
-  console.log(uniqueCouuntries);
+ 
   const handleSubmit = (e) => {
     e.preventDefault();
   };
@@ -166,11 +166,12 @@ const Fixture = ({
         </select>
       </form>
       <section className="grid gap-5 ">
-        <ul className="grid  items-center grid-cols-4 gap-4 text-white h-10 bg-gradient-to-r from-cyan-500 to-red-500">
+        <ul className="grid  items-center grid-cols-5 gap-4 text-white h-10 bg-gradient-to-r from-cyan-500 to-red-500">
           <li className="text-xl font-semibold">Fecha</li>
           <li className="text-xl font-semibold">Local</li>
           <li className="text-xl font-semibold">Marcador</li>
           <li className="text-xl font-semibold">Visitante</li>
+          <li className="text-xl font-semibold">Prediccion API</li>
         </ul>
 
         <section className="grid gap-4 ">

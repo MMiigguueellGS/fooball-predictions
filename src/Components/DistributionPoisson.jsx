@@ -9,7 +9,8 @@ const DistributionPoisson = ({ fixture }) => {
   const [averageGoalsAtAway, setAverageGoalAtsAway] = useState({}); //promedios de goles del equipo visitante selecionado en el select 2
   const [teamHome, setTeamHome] = useState("");
   const [teamAway, setTeamAway] = useState("");
-
+  const [logoHome, setLogoHome] = useState("");
+  const [logoAway, setLogoAway] = useState("");
   //cantidad de equipos por liga para agregar al select ( ESCOGE LOS EQUIPOS DE LA LIGA )
   const teamsByLeague = fixture.reduce((uniqueTeams, matche) => {
     const homeTeam = { id: matche.teams.home.id, name: matche.teams.home.name };
@@ -31,7 +32,7 @@ const DistributionPoisson = ({ fixture }) => {
     return uniqueTeams;
   }, []);
   //-----------------------------------------------------
-    //numero de partidos de liga hasta el momento
+  //numero de partidos de liga hasta el momento
   const totalGamesPlayed = fixture.reduce((sum, matche) => {
     if (matche.fixture.status.long === "Match Finished") {
       sum++;
@@ -50,6 +51,12 @@ const DistributionPoisson = ({ fixture }) => {
   //calculas el promedio del goles del local con el total de partidos del local
   const handleSelectHomeTeam = (e) => {
     const idHome = e.target.value;
+    //escogemos el logo
+    const logoHomee = fixture.find(
+      (matche) => matche.teams.home.id === Number(idHome)
+    );
+    setLogoHome(logoHomee.teams.home.logo);
+    ls.setItem("logoHome",JSON.stringify(logoHomee.teams.home.logo))
     //encuentro el nombre del equipo local
     const nameTeamHome = fixture.reduce((name, matche) => {
       if (matche.teams.home.id === Number(idHome)) {
@@ -59,7 +66,7 @@ const DistributionPoisson = ({ fixture }) => {
     }, "");
     ls.setItem("nameTeamHome", JSON.stringify(nameTeamHome));
     setTeamHome(nameTeamHome);
-
+    console.log(logos);
     let numberHomeMatche = 0;
     let homeTeamGoalOnContra = 0; // goles en contra jugando de local
     const homeTeamGoal = fixture.reduce((sum, matche) => {
@@ -92,6 +99,15 @@ const DistributionPoisson = ({ fixture }) => {
   const handleSelectAwayTeam = (e) => {
     const idAway = e.target.value;
 
+    //escogemos el logo
+    const logoAwayy = fixture.find(
+      (matche) => matche.teams.away.id === Number(idAway)
+    );
+    //agregamos el logo al localstore
+    setLogoAway(logoAwayy.teams.away.logo);
+    ls.setItem("logoAway",JSON.stringify(logoAwayy.teams.away.logo))
+
+ 
     //encuentro el nombre del equipo local
     const nameTeamAway = fixture.reduce((name, matche) => {
       if (matche.teams.away.id === Number(idAway)) {
@@ -192,15 +208,19 @@ const DistributionPoisson = ({ fixture }) => {
     const nameTeamHome = JSON.parse(ls.getItem("nameTeamHome"));
     const nameTeamAway = JSON.parse(ls.getItem("nameTeamAway"));
 
+   const logoHome = JSON.parse(ls.getItem("logoHome"))
+   const logoAway = JSON.parse(ls.getItem("logoAway"))
+
     if (averagesGoalsHome) setAverageGoalAtsHome(averagesGoalsHome);
     if (averagesGoalsAway) setAverageGoalAtsAway(averagesGoalsAway);
     if (nameTeamHome) setTeamHome(nameTeamHome);
     if (nameTeamAway) setTeamAway(nameTeamAway);
+    if(logoHome) setLogoHome(logoHome)
+    if(logoAway) setLogoAway(logoAway)
   }, []);
 
- 
   return (
-    <div className="mb-6 grid gap-6">
+    <section className="grid gap-6 justify-center">
       <Link to="/">Regresar</Link>
       <form action="">
         <label htmlFor="">LOCAL </label>
@@ -222,8 +242,12 @@ const DistributionPoisson = ({ fixture }) => {
           ))}
         </select>
       </form>
-
-      <section>
+      <section className="flex items-center justify-center gap-10">
+        <div><img src={logoHome} alt="" /></div>
+        <div><span>VS</span></div>
+        <div><img src={logoAway} alt="" /></div>
+      </section>
+      <section className="grid  gap-6 ">
         <TeamGGoalsStats
           teamName={teamHome}
           expectedTeamGoals={expectedHomeGoals}
@@ -237,6 +261,7 @@ const DistributionPoisson = ({ fixture }) => {
           poissonProbability={poissonProbability}
         />
       </section>
+
       <section>
         <MatchResultStatus
           expectedHomeGoals={expectedHomeGoals}
@@ -246,19 +271,17 @@ const DistributionPoisson = ({ fixture }) => {
       </section>
 
       <section>
-        <ProbabilisticScoreList expectedHomeGoals={expectedHomeGoals}
+        <ProbabilisticScoreList
+          expectedHomeGoals={expectedHomeGoals}
           expectedAwayGoals={expectedAwayGoals}
           poissonProbability={poissonProbability}
           teamHome={teamHome}
           teamAway={teamAway}
-          />
-          
+        />
       </section>
 
-      <section>
-           
-      </section>
-    </div>
+      <section></section>
+    </section>
   );
 };
 

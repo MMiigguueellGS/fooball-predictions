@@ -29,7 +29,7 @@ const TeamOverAndUnderListAway = ({goalProbabilitiesAwayList,underOverValues,tea
   }
   return (
     <div  className='grid gap-2 columns-2'>
-      <h2 className='bg-red-500 text-white col-span-2'>{teamAway}</h2>
+      <h2 className='bg-gradient-to-r from-blue-500 to-cyan-500 text-white col-span-2'>{teamAway}</h2>
       <ul>
       <h2>Under / Menos </h2>
       {underOverValues.map((value) => (
