@@ -66,7 +66,7 @@ const DistributionPoisson = ({ fixture }) => {
     }, "");
     ls.setItem("nameTeamHome", JSON.stringify(nameTeamHome));
     setTeamHome(nameTeamHome);
-    console.log(logos);
+
     let numberHomeMatche = 0;
     let homeTeamGoalOnContra = 0; // goles en contra jugando de local
     const homeTeamGoal = fixture.reduce((sum, matche) => {
@@ -82,15 +82,16 @@ const DistributionPoisson = ({ fixture }) => {
     }, 0);
     //goles a favor
     const averageGoalsHomeScored = homeTeamGoal / numberHomeMatche;
-
+   
     //goles en contra
     const averageGoalsHomeContra = homeTeamGoalOnContra / numberHomeMatche;
-
+  
     //promedios a favor y en contra
     const averagesGoalsHome = {
       averageFavor: averageGoalsHomeScored,
       averageContra: averageGoalsHomeContra,
     };
+    console.log(averagesGoalsHome)
     ls.setItem("averagesGoalsHome", JSON.stringify(averagesGoalsHome));
     setAverageGoalAtsHome(averagesGoalsHome);
   };
@@ -108,7 +109,7 @@ const DistributionPoisson = ({ fixture }) => {
     ls.setItem("logoAway",JSON.stringify(logoAwayy.teams.away.logo))
 
  
-    //encuentro el nombre del equipo local
+    //encuentro el nombre del equipo visitante
     const nameTeamAway = fixture.reduce((name, matche) => {
       if (matche.teams.away.id === Number(idAway)) {
         name = matche.teams.away.name;
@@ -131,6 +132,7 @@ const DistributionPoisson = ({ fixture }) => {
       }
       return sum;
     }, 0);
+
     const averageGoalsAway = awayTeamGoal / numberAwayMatche;
     const averageGoalsAwayContra = awayTeamGoalOnContra / numberAwayMatche;
 
