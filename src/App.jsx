@@ -5,15 +5,21 @@ import Fixture from "./Fixture";
 import DistributionPoisson from "./Components/DistributionPoisson";
 import PredictionsAPI from "./predicciones/PredictionsAPI";
 import { Link, Route, Routes } from "react-router-dom";
+import DailyMatchesFixture from "./DailyMatches/DailyMatchesFixture";
 const ls = localStorage;
 function App() {
   const [country, setCountry] = useState(""); //se guarda el pais seleccionado en el select de paises
   const [leagueCurrent, setleagueCurrent] = useState([]); //se guarda datos de  liga seleccionada en el select ID;Nombrede liga ; temporada, y pais
   const [leaguesByCountry, setLeaguesByCountry] = useState([]); // guarda la lista de las ligas x ciudad  , es lo que se ve en el select de ligas
   const [fixture, setFixture] = useState([]); //guarda el fixture dela liga seleccionada
-
   const [countries, setCountries] = useState([]) 
 
+  const headers = {
+    headers: {
+      "x-rapidapi-host": "v3.football.api-sports.io",
+      "x-rapidapi-key": "f2644de95c12ea7a21cdf3b27aa29ef0",
+    },
+  };
   const onChangeCountry = (e) => {
     setCountry(e.target.value);
     const leaguesByCountry = addLeaguesSelect(e.target.value);
@@ -46,12 +52,7 @@ function App() {
   }
   //---------------------------------------
   const handleRequest = () => {
-    const headers = {
-      headers: {
-        "x-rapidapi-host": "v3.football.api-sports.io",
-        "x-rapidapi-key": "f2644de95c12ea7a21cdf3b27aa29ef0",
-      },
-    };
+   
     const url = "https://v3.football.api-sports.io/leagues?current=true";
     axios
       .get(url, headers)
@@ -63,13 +64,8 @@ function App() {
   };
   //----------------------------------------------
   const handleClickFixture = () => {
-    const headers = {
-      headers: {
-        "x-rapidapi-host": "v3.football.api-sports.io",
-        "x-rapidapi-key": "f2644de95c12ea7a21cdf3b27aa29ef0",
-      },
-    };
-    const url = `https://v3.football.api-sports.io/fixtures?league=${leagueCurrent.id}&season=2023`;
+ 
+    const url = `https://v3.football.api-sports.io/fixtures?league=${leagueCurrent.id}&season=${leagueCurrent.season}`;
     axios
       .get(url, headers)
       .then(({ data }) => {
@@ -94,6 +90,9 @@ function App() {
       }
     });
   }
+
+
+ 
   //-------------------------sto me trae data de la liga a pronosticar-------------------------------------
   useEffect(() => {
     const fixture = JSON.parse(ls.getItem("fixture"));
@@ -111,9 +110,18 @@ function App() {
 
   return (
     <>
+   
+
+    <nav className="flex gap-8 justify-center">
+      <Link to="/" >Home</Link>
+      <Link to="/fixture" >Ligas</Link>
+      <Link to="" >Predicciones</Link>      
+    </nav>
       <Routes>
+
+        <Route path="/" element={<DailyMatchesFixture/> } ></Route>
         <Route
-          path="/"
+          path="/fixture"
           element={
             <Fixture
               fixture={fixture}

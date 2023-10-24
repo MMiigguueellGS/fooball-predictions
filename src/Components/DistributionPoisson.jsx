@@ -95,7 +95,7 @@ const DistributionPoisson = ({ fixture }) => {
     setAverageGoalAtsHome(averagesGoalsHome);
   };
 
-  //calculas el promedio del goles del visitante con el total de partidos del visitante
+  //calcula el promedio del goles del visitante con el total de partidos del visitante
   const handleSelectAwayTeam = (e) => {
     const idAway = e.target.value;
 
@@ -175,8 +175,8 @@ const DistributionPoisson = ({ fixture }) => {
   const expectedAwayGoals =
     awayAttackForce * homeDefensivForce * averageGoalsAtAwayLeague;
 
-  // ----------------------------------------
-
+ 
+// FORMULA DE DISTRIBUCION DE POISSON
   function poissonProbability(expectedGoal, expectedGoals) {
     if (expectedGoal < 0) {
       return 0; // La probabilidad nunca puede ser negativa
