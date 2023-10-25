@@ -48,7 +48,7 @@ function App() {
         });
       }
     });
-    return leaguesByCountry;
+    return leaguesByCountry.sort((a,b)=>a.league[0].localeCompare(b.league[0]));
   }
   //---------------------------------------
   const handleRequest = () => {

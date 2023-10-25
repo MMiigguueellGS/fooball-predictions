@@ -18,7 +18,7 @@ const Fixture = ({
   const [teamByHomeOrAway, setTeamByHomeOrAway] = useState([]);
 
   const countriesList = countries.map((country) => country.country.name);
-  const uniqueCouuntries = [...new Set(countriesList)];
+  const uniqueCouuntries = [...new Set(countriesList)].sort((a,b)=>a[0].localeCompare(b[0]));
  
   const handleSubmit = (e) => {
     e.preventDefault();
