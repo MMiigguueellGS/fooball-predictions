@@ -25,7 +25,17 @@ function App() {
     const leaguesByCountry = addLeaguesSelect(e.target.value);
     setLeaguesByCountry(leaguesByCountry);
   };
-
+  const prediction = (fixture)=>{
+     
+    const url = `https://v3.football.api-sports.io/predictions?fixture=${fixture}`;
+    axios
+      .get(url, headers)
+      .then(({ data }) => {
+        // ls.setItem("leagues", JSON.stringify(data.response))
+        console.log(data.response)
+      })
+      .catch((err) => console.log(err));
+  }
   //aca seleciono la liga y guardo en el estado leagueCurrent los datos de esa liga ID;Nombrede liga ; temporada, y pais
   const onChangeLeagueSelect = (e) => {
     console.log(e.target.value);
@@ -133,6 +143,7 @@ function App() {
               country={country}
               leagueCurrent={leagueCurrent}
               countries={countries}
+              prediction={prediction}
             />
           }
         />

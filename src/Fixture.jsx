@@ -12,6 +12,7 @@ const Fixture = ({
   country,
   leagueCurrent,
   countries,
+  prediction
 }) => {
   const [teamName, setTeamName] = useState("");
   const [homeOrAway, setHomeOrAway] = useState("");
@@ -143,7 +144,7 @@ const Fixture = ({
         onSubmit={handleSubmit}
         className="grid gap-8 sm:flex sm:justify-between max-w-[1200px] mx-auto"
       >
-        <div className="ligthTheme p-4 rounded-md flex items-center gap-2 darkTheme sm:w-[360px]">
+        <div className=" p-4 rounded-md flex items-center gap-2  sm:w-[360px]">
           <i className="bx bx-search-alt-2 text-dark-gray text-lg"></i>
           <input
             id="teamName"
@@ -165,7 +166,7 @@ const Fixture = ({
           <option value="away">Visitante</option>
         </select>
       </form>
-      <section className="grid gap-5 ">
+      <section className="grid gap-5  bg-gradient-to-r from-cyan-300 to-red-300 ">
         <ul className="grid  items-center grid-cols-5 gap-4 text-white h-10 bg-gradient-to-r from-cyan-500 to-red-500">
           <li className="text-xl font-semibold">Fecha</li>
           <li className="text-xl font-semibold">Local</li>
@@ -176,7 +177,7 @@ const Fixture = ({
 
         <section className="grid gap-4 ">
           {teamByHomeOrAway.map((game) => (
-            <FixtureList key={game.fixture.id} game={game} />
+            <FixtureList key={game.fixture.id} game={game} prediction={prediction} />
           ))}
         </section>
       </section>
