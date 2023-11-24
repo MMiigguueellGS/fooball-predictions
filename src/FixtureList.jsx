@@ -47,7 +47,7 @@ const FixtureList = ({ game,prediction }) => {
         </div>
       </div>
       <div>
-        <button onClick={()=>prediction(game.fixture.id)} className="bg-sky-700/50 p-2 " to="">Ver prediccion</button>
+        <Link  className="bg-sky-700/50 p-2 " to={`/predicciones/${game.fixture.id}`}>Ver prediccion</Link>
       </div>
     </article>
   );

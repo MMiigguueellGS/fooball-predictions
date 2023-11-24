@@ -148,14 +148,11 @@ function App() {
           }
         />
         <Route
-          path="/predicciones"
+          path="/predicciones/:id"
           element={<DistributionPoisson fixture={fixture} />}
         />
       </Routes>
 
-      {/* */}
-      {/*  */}
-      {/* <PredictionsAPI fixture={fixture} /> */}
     </>
   );
 }

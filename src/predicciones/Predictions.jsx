@@ -6,7 +6,7 @@ import axios from 'axios'
 
 const Predictions = ({fixture}) => {
   const {id}= useParams()
-  const [dataPredictions,setDataPredictions] = useState(null) 
+  const [dataPredictions,setDataPredictions] = useState([]) 
   const headers = {
     headers: {
       "x-rapidapi-host": "v3.football.api-sports.io",
