@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import DistributionPoisson from '../Components/DistributionPoisson'
-import PredictionsAPI from './PredictionsAPI'
+
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
+import PredictionsAPI from './PredictionsAPI'
 
 const Predictions = ({fixture}) => {
   const {id}= useParams()
+  console.log(fixture)
   const [dataPredictions,setDataPredictions] = useState([]) 
   const headers = {
     headers: {
@@ -34,9 +36,7 @@ const Predictions = ({fixture}) => {
   return (
     <div className=' flex gap-8'>
       <DistributionPoisson fixture={fixture}/>
-      {dataPredictions&&
-        <PredictionsAPI dataPredictions={dataPredictions}/>
-      }
+      <PredictionsAPI dataPredictions={dataPredictions}/>
     </div>
   )
 }
