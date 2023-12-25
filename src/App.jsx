@@ -6,6 +6,7 @@ import DistributionPoisson from "./Components/DistributionPoisson";
 import PredictionsAPI from "./predicciones/PredictionsAPI";
 import { Link, Route, Routes } from "react-router-dom";
 import DailyMatchesFixture from "./DailyMatches/DailyMatchesFixture";
+import Predictions from "./predicciones/Predictions";
 const ls = localStorage;
 function App() {
   const [country, setCountry] = useState(""); //se guarda el pais seleccionado en el select de paises
@@ -149,7 +150,7 @@ function App() {
         />
         <Route
           path="/predicciones/:id"
-          element={<DistributionPoisson fixture={fixture} />}
+          element={<Predictions fixture={fixture} />}
         />
       </Routes>
 

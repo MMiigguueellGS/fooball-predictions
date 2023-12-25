@@ -6,9 +6,10 @@ import axios from 'axios'
 import PredictionsAPI from './PredictionsAPI'
 
 const Predictions = ({fixture}) => {
+  
   const {id}= useParams()
-  console.log(fixture)
-  const [dataPredictions,setDataPredictions] = useState([]) 
+
+  const [dataPredictions, setDataPredictions] = useState(null) 
   const headers = {
     headers: {
       "x-rapidapi-host": "v3.football.api-sports.io",
@@ -20,14 +21,11 @@ const Predictions = ({fixture}) => {
     const url = `https://v3.football.api-sports.io/predictions?fixture=${fixtureId}`;
     axios
       .get(url, headers)
-      .then(({ data }) => {
-        // ls.setItem("leagues", JSON.stringify(data.response))
-        setDataPredictions(data.response)
-      })
+      .then(({ data }) => setDataPredictions(data.response)   )
       .catch((err) => console.log(err));
   }
   useEffect(() => {
-    
+   
     prediction(id)
   
     
@@ -35,8 +33,11 @@ const Predictions = ({fixture}) => {
   
   return (
     <div className=' flex gap-8'>
+      
       <DistributionPoisson fixture={fixture}/>
-      <PredictionsAPI dataPredictions={dataPredictions}/>
+      {dataPredictions&&
+        <PredictionsAPI dataPredictions={dataPredictions}/>
+      }
     </div>
   )
 }

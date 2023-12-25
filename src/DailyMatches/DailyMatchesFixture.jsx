@@ -1,11 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DailyMatchesFixtureList from "./DailyMatchesFixtureList";
 import axios from "axios";
 import { format } from "date-fns";
+import { stringify } from "postcss";
 // import { es } from "date-fns/locale";
 
 const DailyMatchesFixture = () => {
   const [DailyMatches, setDailyMatches] = useState([]);
+  const [search, setSearch] = useState("");
+  const [searchLeague, setSearchLeague] = useState("");
+
+  const handleSearch = (e) => {
+    const searchIinput = e.target.value;
+
+    setSearch(searchIinput);
+  };
+  const handleSearchLeague = (e) => {
+    const searchIinput = e.target.value;
+    setSearchLeague(searchIinput);
+    const DailyMatchesFilter = JSON.parse(localStorage.getItem("DailyMatches"));
+    if (DailyMatchesFilter) {
+      const matches = DailyMatchesFilter.filter((game) => {
+        const inputLower = searchIinput
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "");
+        const leagueName = game.league.name
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "");
+        return leagueName.includes(inputLower);
+      });
+      setDailyMatches(matches);
+    }
+  };
+
   const headers = {
     headers: {
       "x-rapidapi-host": "v3.football.api-sports.io",
@@ -27,9 +56,18 @@ const DailyMatchesFixture = () => {
     // const url = "https://v3.football.api-sports.io/fixtures?live=all";
     axios
       .get(url, headers)
-      .then(({ data }) => setDailyMatches(data.response))
+      .then(({ data }) => {
+        setDailyMatches(data.response);
+        localStorage.setItem("DailyMatches", JSON.stringify(data.response));
+      })
       .catch((err) => console.log(err));
   }
+useEffect(() => {
+  const currentMatches = JSON.parse(localStorage.getItem("DailyMatches"))
+ if(currentMatches){
+  setDailyMatches(currentMatches)
+ }
+}, [])
 
   return (
     <div>
@@ -67,12 +105,32 @@ const DailyMatchesFixture = () => {
           </li>
         </ul>
         <section className="grid  items-center gap-4 bg-gradient-to-r from-cyan-300 to-red-300 ">
-          <form className="grid gap-8 sm:flex sm:justify-between w-full mx-auto px-8">
-            <div className="p-2  rounded-md flex justify-between gap-4 border-yellow-500 border-b-2  w-[350px] bg-transparent">
-              <i className="bx bx-search-alt-2 text-white text-xl "></i>
-              <input type="text" className="outline-none flex-1 bg-white/0 placeholder-white text-white pl-6" placeholder="Buscar por hora ..."/>
-            </div>
-          </form>
+          <section className="flex">
+            <form className="grid gap-8 sm:flex sm:justify-between w-full mx-auto px-8">
+              <div className="p-2  rounded-md flex justify-between gap-4 border-yellow-500 border-b-2  w-[350px] bg-transparent">
+                <i className="bx bx-search-alt-2 text-white text-xl "></i>
+                <input
+                  onChange={handleSearch}
+                  type="text"
+                  className="outline-none flex-1 bg-white/0 placeholder-white text-white pl-6"
+                  placeholder="Buscar por hora ..."
+                  value={search}
+                />
+              </div>
+            </form>
+            <form className="grid gap-8 sm:flex sm:justify-between w-full mx-auto px-8">
+              <div className="p-2  rounded-md flex justify-between gap-4 border-yellow-500 border-b-2  w-[350px] bg-transparent">
+                <i className="bx bx-search-alt-2 text-white text-xl "></i>
+                <input
+                  onChange={handleSearchLeague}
+                  type="text"
+                  className="outline-none flex-1 bg-white/0 placeholder-white text-white pl-6"
+                  placeholder="Buscar por Liga ..."
+                  value={searchLeague}
+                />
+              </div>
+            </form>
+          </section>
           <article className="grid grid-cols-8 gap-4 items-center bg-emerald-700">
             <div className="font-light text-2xl text-white">Fecha</div>
             <div className="font-light text-2xl text-white">Hora</div>
@@ -86,7 +144,12 @@ const DailyMatchesFixture = () => {
           {DailyMatches.map(
             (game) =>
               game.fixture.status.long !== "Match Postponed" && (
-                <DailyMatchesFixtureList key={game.fixture.id} game={game} />
+                <DailyMatchesFixtureList
+                  key={game.fixture.id}
+                  game={game}
+                  search={search}
+                  searchLeague={searchLeague}
+                />
               )
           )}
         </section>

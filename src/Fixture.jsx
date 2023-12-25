@@ -15,6 +15,7 @@ const Fixture = ({
   prediction
 }) => {
   const [teamName, setTeamName] = useState("");
+  const [searchFecha, setsearchFecha] = useState("");
   const [homeOrAway, setHomeOrAway] = useState("");
   const [teamByHomeOrAway, setTeamByHomeOrAway] = useState([]);
 
@@ -47,6 +48,12 @@ const Fixture = ({
 
     setTeamByHomeOrAway(filteredMatches);
   };
+  const handleChangeDate = (e) => {
+    setsearchFecha(e.target.value);
+
+  
+  
+  }
 
   const handleChangeHomeOrAway = (e) => {
     setHomeOrAway(e.target.value);
@@ -156,6 +163,18 @@ const Fixture = ({
             value={teamName}
           />
         </div>
+        <div className=" p-4 rounded-md flex items-center gap-2  sm:w-[360px]">
+          <i className="bx bx-search-alt-2 text-dark-gray text-lg"></i>
+          <input
+            id="teamName"
+            className="outline-none flex-1 bg-white/0"
+            placeholder="buscar por Fecha..."
+            type="date"
+            autoComplete="off"
+            onChange={handleChangeDate}
+            value={searchFecha}
+          />
+        </div>
 
         <select
           onChange={handleChangeHomeOrAway}
@@ -177,7 +196,7 @@ const Fixture = ({
 
         <section className="grid gap-4 ">
           {teamByHomeOrAway.map((game) => (
-            <FixtureList key={game.fixture.id} game={game} prediction={prediction} />
+            <FixtureList key={game.fixture.id} game={game} prediction={prediction} searchFecha={searchFecha} />
           ))}
         </section>
       </section>
