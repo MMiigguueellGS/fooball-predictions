@@ -31,7 +31,7 @@ const DailyMatchesFixtureList = ({ game,search,searchLeague }) => {
   <>
   {
     searchHour < horas &&
-     <article className="grid grid-cols-[repeat(8,_1fr)] gap-4 ">
+     <article className="grid grid-cols-[repeat(8,_1fr)] gap-4 text-white">
      <span>
       {date}
     </span>

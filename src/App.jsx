@@ -14,7 +14,7 @@ function App() {
   const [leaguesByCountry, setLeaguesByCountry] = useState([]); // guarda la lista de las ligas x ciudad  , es lo que se ve en el select de ligas
   const [fixture, setFixture] = useState([]); //guarda el fixture dela liga seleccionada
   const [countries, setCountries] = useState([]) 
-
+  const [opcionActive,setOpcionActive] = useState("home")
   const headers = {
     headers: {
       "x-rapidapi-host": "v3.football.api-sports.io",
@@ -85,6 +85,10 @@ function App() {
       })
       .catch((err) => console.log(err));
   };
+ const  handleClickActive = (option)=>{
+  setOpcionActive(option)
+ }
+
   //------------------- esto me trae todas de las ligas y temporadas actuales guardatas en el LOCAL STORAGE--------------------------------
 
   const leagues = JSON.parse(ls.getItem("leagues"));
@@ -121,12 +125,12 @@ function App() {
 
   return (
     <>
-   
+   <section className="fixed top-0 left-0 w-full h-full -z-10 bg-fondo bg-cover bg-center "></section>
 
-    <nav className="flex gap-8 justify-center">
-      <Link to="/" >Home</Link>
-      <Link to="/fixture" >Ligas</Link>
-      <Link to="" >Predicciones</Link>      
+    <nav className="fixed top-0 left-0 w-full flex justify-center bg-black/80  text-white">
+      <Link to="/" onClick={()=>handleClickActive("home")} className={`${opcionActive === "home" ? "bg-zinc-400/60" : ""} p-6`} >Home</Link>
+      <Link  to="/fixture" onClick={()=>handleClickActive("liga")} className={`${opcionActive === "liga" ? "bg-zinc-400/60" : ""} p-6`}>Ligas</Link>
+      {/* <Link to="/" onClick={()=>handleClickActive("liga")} className={`${opcionActive === "liga" ? "bg-zinc-400/60" : ""} p-6`}>Predicciones</Link>       */}
     </nav>
       <Routes>
 

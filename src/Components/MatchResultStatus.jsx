@@ -44,7 +44,7 @@ const MatchResultStatus = ({expectedHomeGoals,expectedAwayGoals,poissonProbabili
   const drawProbability  = calculateProbabilityDraw(arrayExpectedHomeGoals,arrayExpectedAwayGoals)*100
 
   return (
-    <div>
+    <div className='bg-black-opacity p-8'>
 
       <h2>victoria local : {homeTeamWinProbability.toFixed(2)}</h2>
       <h2>victoria visita : {awayTeamWinProbability.toFixed(2)}</h2>

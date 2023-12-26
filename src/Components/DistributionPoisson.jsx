@@ -222,7 +222,7 @@ const DistributionPoisson = ({ fixture }) => {
   }, []);
 
   return (
-    <section className="grid gap-6 justify-center">
+    <section className="grid gap-6 justify-center text-white">
       <Link to="/">Regresar</Link>
       <form action="">
         <label htmlFor="">LOCAL </label>
@@ -249,7 +249,7 @@ const DistributionPoisson = ({ fixture }) => {
         <div><span>VS</span></div>
         <div><img src={logoAway} alt="" /></div>
       </section>
-      <section className="grid  gap-6 ">
+      <section className="grid  gap-6  bg-black-opacity">
         <TeamGGoalsStats
           teamName={teamHome}
           expectedTeamGoals={expectedHomeGoals}

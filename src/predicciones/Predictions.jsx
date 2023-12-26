@@ -32,7 +32,7 @@ const Predictions = ({fixture}) => {
   }, [])
   
   return (
-    <div className=' flex gap-8'>
+    <div className=' flex gap-8 mt-16' >
       
       <DistributionPoisson fixture={fixture}/>
       {dataPredictions&&

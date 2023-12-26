@@ -35,7 +35,7 @@ const ProbabilisticScoreList = ({
   });
 
   return (
-    <div className="grid gap-10 justify-center" >
+    <div className="grid gap-10 justify-center bg-black-opacity p-8 " >
       
         <ProbabilisticScoreListDetail
           goalProbabilitiesHomeList={goalProbabilitiesHomeList}
