@@ -94,16 +94,17 @@ const Fixture = ({
   }, [fixture]);
 
   return (
-    <div className="mt-16">
+    <div className="mt-16 mx-28">
       <button
         onClick={handleRequest}
-        className="p-2 px-4 rounded-2xl bg-red-500 text-white mr-4"
+        className="py-3  bg-green-800 text-white w-full uppercase hover:bg-zinc-400/60"
       >
         Traer Datos
       </button>
 
-      <select onChange={onChangeCountry}>
-        <option value=""> -- Seleccione un país --</option>
+     <section className=" grid grid-cols-3">
+     <select onChange={onChangeCountry} className="outline-none bg-black-opacity placeholder:text-white text-white text-center py-4"  >
+        <option value=""> Seleccione un país </option>
         {uniqueCouuntries.map((country) => (
           <option key={country} value={country}>
             {country}
@@ -113,8 +114,8 @@ const Fixture = ({
         {/* Puedes agregar más países según tus necesidades */}
       </select>
 
-      <select onChange={onChangeLeagueSelect}>
-        <option value=""> -- Seleccione una liga --</option>
+      <select onChange={onChangeLeagueSelect} className="outline-none bg-black-opacity placeholder:text-white text-white text-center py-4">
+        <option value="">  Seleccione una liga </option>
 
         {leaguesByCountry.map((league) => (
           <option key={league.id} value={league.id}>
@@ -124,29 +125,29 @@ const Fixture = ({
       </select>
       <button
         onClick={handleClickFixture}
-        className="p-2 px-4 rounded-2xl bg-blue-500 text-white"
+        className="col-st p-2 px-4 bg-zinc-400/30  hover:bg-zinc-400/60 text-white "
       >
         Fixture
       </button>
-      <section className=" flex justify-center items-center gap-4">
-        <h1 className="my-4 flex gap-4 justify-center">
-          <span>
-            PAIS
-            <span className="text-xl text-red-500 font-semibold">
+     </section>
+      <section className=" flex flex-wrap justify-center items-center gap-10 bg-black-opacity mt-2 py-12">     
+          <article className="text-white flex gap-2 items-center ">
+            <span>PAIS</span>
+            <span className="text-2xl text-red-500 font-semibold">
               {leagueCurrent.country}
             </span>
-          </span>
-          <span>
-            LIGA
-            <span className="text-xl text-red-500 font-semibold">
+          </article>
+          <article className="text-white flex items-center gap-4">
+            <span>LIGA</span>
+            <span className="text-2xl text-red-500 font-semibold">
               {leagueCurrent.league}
             </span>
-          </span>
-        </h1>
-        <Link to="/predicciones">Ir a predicciones</Link>
+          </article>
+    
+        {/* <Link to="/predicciones">Ir a predicciones</Link> */}
       </section>
 
-      <section className="bg-estadio bg-contain  text-white rounded-3xl">
+      <section className="bg-estadio bg-contain  text-white ">
         <form
           onSubmit={handleSubmit}
           className="grid gap-8 sm:flex sm:justify-between max-w-[1200px] mx-auto bg-black/40"

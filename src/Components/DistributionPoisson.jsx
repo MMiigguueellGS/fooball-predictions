@@ -222,7 +222,7 @@ const DistributionPoisson = ({ fixture }) => {
   }, []);
 
   return (
-    <section className="grid gap-6 justify-center text-white">
+    <section className="grid gap-6  text-white">
       <Link to="/">Regresar</Link>
       <form action="">
         <label htmlFor="">LOCAL </label>

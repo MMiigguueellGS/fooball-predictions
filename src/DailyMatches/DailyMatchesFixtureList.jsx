@@ -31,7 +31,7 @@ const DailyMatchesFixtureList = ({ game,search,searchLeague }) => {
   <>
   {
     searchHour < horas &&
-     <article className="grid grid-cols-[repeat(8,_1fr)] gap-4 text-white">
+     <article className="grid grid-cols-[repeat(auto-fit,_minmax(80px,_1fr))] gap-6 text-center text-white hover:bg-zinc-400/60 shadow-lg shadow-black/50 ">
      <span>
       {date}
     </span>
@@ -74,15 +74,15 @@ const DailyMatchesFixtureList = ({ game,search,searchLeague }) => {
         <span>{game.teams.away.name}</span>
       </div>
     </div>
-    <div>
+    <div className="truncate flex items-center justify-center">
 
       {game.league.name}
     </div>
-    <div className="flex justify-center items-center gap-2">
+    <div className="grid grid-cols-2  items-center gap-1">
      <div>
       <img className="w-[60px] h-[60px] " src={game.league.flag} alt="" />
      </div>
-     <span> {game.league.country}</span>
+     <span className="truncate text-center"> {game.league.country}</span>
     </div>
     <div>
       {game.fixture.status.long=== 'Match Postponed'&& "Pospuesto"}

@@ -77,8 +77,8 @@ const DailyMatchesFixture = () => {
 
   return (
  
-      <section className="grid gap-5 bg-estadio bg-contain w-full mt-16 rounded-t-xl">
-        <ul className="grid  items-center grid-cols-5  text-white  bg-black/60 rounded-t-xl">
+      <section className="grid  bg-estadio  mt-16 rounded-t-xl mx-28 ">
+        <ul className="grid grid-cols-[repeat(auto-fit,_minmax(80px,_1fr))] justify-center items-center  text-white  bg-black/60 rounded-t-xl text-center ">
           <li
             onClick={() => fixtureForDay(dateList(-2))}
             className={`text-xl font-light cursor-pointer hover:bg-zinc-400/60 py-2 ${dateList(-2)===dayActive? "bg-zinc-400/60":""}`}
@@ -111,9 +111,9 @@ const DailyMatchesFixture = () => {
           </li>
         </ul>
         <section className="grid  items-center gap-4 bg-transparent">
-         <section className="bg-black/50">
-         <section className="flex">
-            <form className="grid gap-8 sm:flex sm:justify-between w-full mx-auto px-8 ">
+         <section className="bg-black/50  grid gap-10 ">
+         <section className="flex mt-10">
+            <form className="grid gap-8 sm:flex sm:justify-center w-full  px-8 ">
               <div className="p-2  rounded-md flex justify-between gap-4 border-yellow-500 border-b-2  w-[350px] bg-transparent">
                 <i className="bx bx-search-alt-2 text-red-500 text-xl "></i>
                 <input
@@ -125,7 +125,7 @@ const DailyMatchesFixture = () => {
                 />
               </div>
             </form>
-            <form className="grid gap-8 sm:flex sm:justify-between w-full mx-auto px-8 ">
+            <form className="grid gap-8 sm:flex sm:justify-center w-full px-8 ">
               <div className="p-2  rounded-md flex justify-between gap-4 border-yellow-500 border-b-2  w-[350px] bg-transparent">
                 <i className="bx bx-search-alt-2 text-white text-xl "></i>
                 <input
@@ -138,7 +138,7 @@ const DailyMatchesFixture = () => {
               </div>
             </form>
           </section>
-          <article className="grid grid-cols-8 gap-4 items-center  py-2">
+          <article className="grid grid-cols-[repeat(auto-fit,_minmax(80px,_1fr))] justify-between items-center text-center gap-6 py-2 bg-black/40">
             <div className="font-light text-2xl text-white">Fecha</div>
             <div className="font-light text-2xl text-white">Hora</div>
             <div className="font-light text-2xl text-white">Local</div>

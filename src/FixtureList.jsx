@@ -26,7 +26,7 @@ const FixtureList = ({ game, searchFecha }) => {
   return (
     <>
       {filter && (
-        <article className="grid grid-cols-5 gap-4 items-center ">
+        <article className="grid grid-cols-5 gap-4 items-center  text-white hover:bg-zinc-400/60 shadow-lg shadow-black/50 ">
           <span className="">{date}</span>
 
           <div className="grid grid-cols-2 justify-center items-center  ">

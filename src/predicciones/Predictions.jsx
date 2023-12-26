@@ -32,7 +32,7 @@ const Predictions = ({fixture}) => {
   }, [])
   
   return (
-    <div className=' flex gap-8 mt-16' >
+    <div className=' grid grid-cols-[repeat(auto-fit,_minmax(500px,_1fr))] gap-8 mt-16' >
       
       <DistributionPoisson fixture={fixture}/>
       {dataPredictions&&
